@@ -24,18 +24,19 @@ io.on("connection", function(uniquesocket){
   console.log("connected");
 
   if(!players.white){
-  players.white = uniquesocket.id;
-  uniquesocket.emit("playerRole", "w");
-}
+    players.white = uniquesocket.id;
+    uniquesocket.emit("playerRole", "w");
+  }
+  else if(!players.black){
+    players.black = uniquesocket.id;
+    uniquesocket.emit("playerRole", "b");
+  }
+  else{
+    uniquesocket.emit("spectatorRole");
+  }
 
-else if(!players.black){
-  players.black = uniquesocket.id;
-  uniquesocket.emit("playerRole", "b");
-}
-
-else{
-  uniquesocket.emit("spectatorRole");
-}
+  // Send current board state immediately on connection
+  uniquesocket.emit("boardState", chess.fen());
 
 uniquesocket.on("disconnect", function(){
   if(uniquesocket.id === players.white){
@@ -49,6 +50,11 @@ uniquesocket.on("disconnect", function(){
 
 uniquesocket.on("move", (move) => {
   try{
+    // Prevent moves if the game is already over
+    if (chess.isGameOver()) {
+      return;
+    }
+
     if(chess.turn() ==="w" && uniquesocket.id !== players.white) return;
 
     if(chess.turn() ==="b" && uniquesocket.id !== players.black) return;
@@ -56,9 +62,28 @@ uniquesocket.on("move", (move) => {
     const result = chess.move(move);
     
     if(result){
-      currentPlayer = chess.turn();
+      if(chess.isCheckmate()){
+        io.emit("checkmate", {
+          winner: result.color,
+        });
+      }
+      else if(chess.isStalemate()){
+        io.emit("stalemate");
+      }
+      else if(chess.isDraw()){
+        io.emit("draw", {
+          reason: chess.isThreefoldRepetition() ? "threefold repetition" :
+                  chess.isInsufficientMaterial() ? "insufficient material" : "draw"
+        });
+      }
+      else if(chess.isCheck()){
+        io.emit("check", { 
+          checkedPlayer: chess.turn()
+        });
+      }
+
       io.emit("move", move);
-      io.emit("boardState",chess.fen());
+      io.emit("boardState", chess.fen());
     }
 
     else{
@@ -68,12 +93,12 @@ uniquesocket.on("move", (move) => {
   }
   catch(err){
     console.log(err);
-    uniquesocket.emit("Invalid Move : ", move);
+    uniquesocket.emit("invalidMove", move);
   }
 });
 
 });
 
-server.listen(8000, function () {
-  console.log("Listening on port 8000");
+server.listen(8002, function () {
+  console.log("Listening on port 80002");
 });
