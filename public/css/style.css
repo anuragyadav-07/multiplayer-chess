@@ -16,12 +16,20 @@ body {
     align-items: center;
 }
 
+.screen{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding: 20px;
+}
+
 .container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 20px;
+    margin-left: auto;
 }
 
 /* Status Bar styling */
@@ -169,4 +177,110 @@ body {
         transform: scale(1.02);
         box-shadow: 0 0 22px rgba(245, 158, 11, 0.6);
     }
+}
+
+.square {
+    position: relative;
+}
+
+.square.move::after {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: rgba(0, 180, 0, 0.55);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.square.capture::after {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border: 5px solid rgba(0, 180, 0, 0.75);
+    border-radius: 50%;
+    pointer-events: none;
+    box-sizing: border-box;
+}
+
+.chat-box{
+    width: 300px;
+    height: 500px;
+    display: flex;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    margin-left: auto;
+}
+
+#chat-message{
+    flex: 1;
+    overflow: auto;
+    padding: 10px;
+    color: #ccc;
+}
+
+.chat-input{
+    display: flex;
+    padding: 10px;
+    gap: 8px;
+    height: 60px;
+    border-radius: 10px;
+}
+
+input{
+    height: 40px;
+    width: 200px;
+    border-radius: 50px;
+    background: #ccc;
+    margin: 10px;
+    padding: 20px;
+    border: none;
+}
+
+button{
+    margin: 10px;
+    padding: 10px;
+    height: 40px;
+    width: 70px;
+    text-align: center;
+    color: white;
+    font-size: 15px;
+    cursor: pointer;
+    background: #ccc;
+    border-radius: 50px;
+    border: none;
+    background: #4776E6; 
+    background: linear-gradient(to right, #8E54E9, #4776E6);
+}
+button:hover {
+    transform: scale(1.05);
+}
+
+.message {
+    max-width: 75%;
+    padding: 10px 14px;
+    border-radius: 16px;
+    word-wrap: break-word;
+    font-size: 15px;
+}
+
+/* White player's messages */
+.white-message {
+    align-self: flex-start;
+    background: #ffffff;
+    color: #111;
+    border: 1px solid #ddd;
+    margin: 5px;
+}
+
+/* Black player's messages */
+.black-message {
+    align-self: flex-end;
+    background: #000000;
+    color: white;
+    margin: 5px;
 }

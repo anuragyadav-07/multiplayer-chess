@@ -20,6 +20,12 @@ app.get("/", (req, res) => {
   res.render("index", {title: "Chess Game"});
 });
 
+io.on("connection", (socket) => {
+  socket.on("chatMessage", (data) => {
+    io.emit("chatMessages", data);
+  });
+});
+
 io.on("connection", function(uniquesocket){
   console.log("connected");
 
@@ -100,5 +106,5 @@ uniquesocket.on("move", (move) => {
 });
 
 server.listen(8002, function () {
-  console.log("Listening on port 80002");
+  console.log("Listening on port 8002");
 });

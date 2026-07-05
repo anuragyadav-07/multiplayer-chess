@@ -1,11 +1,30 @@
 const socket = io();
 const chess = new Chess();
 const boardElement = document.querySelector(".chessboard");
-const statusElement = document.getElementById("status")
+const statusElement = document.getElementById("status");
+const input = document.getElementById("messageInput");
+const sendBtn = document.getElementById("sendBtn");
+const chatMessages = document.getElementById("chat-message");
 
 let draggedPiece = null;
 let sourceSquare = null;
 let playerRole = null;
+let legalMoves = [];
+let highlightedSquares = [];
+
+sendBtn.addEventListener("click", () => {
+  const message = input.value.trim();
+
+  if(message){
+    socket.emit("chatMessage",{
+      sender: playerRole,
+      text:message
+    });
+    input.value = "";
+  }
+  
+});
+
 const updateStatus = () => {
   let message = "";
   let statusClass = "";
@@ -63,18 +82,44 @@ const updateStatus = () => {
   statusElement.innerText = message;
 };
 
+const showLegalMoves = (row, col) => {
+  const square = `${String.fromCharCode(97 + col)}${8 - row}`;
+  legalMoves = chess.moves({
+    square: square,
+    verbose: true,
+  });
+  renderBoard();
+}
+
+const clearHighlights = () => {
+  highlightedSquares = [];
+  legalMoves=[];
+  renderBoard();
+}
+
 const renderBoard = () => {
   const board = chess.board();
   boardElement.innerHTML = "";
   board.forEach((row, rowindex) => {
     row.forEach((square, squareindex) => {
       const squareElement = document.createElement("div");
+
       squareElement.classList.add(
         "square",
         (rowindex + squareindex) % 2 === 0 ? "light" : "dark"
       );
       squareElement.dataset.row = rowindex;
       squareElement.dataset.col = squareindex;
+
+      const squareName = `${String.fromCharCode(97 + squareindex)}${8 - rowindex}`;
+      const move = legalMoves.find(m => m.to === squareName);
+      if(move){
+        if(square){
+          squareElement.classList.add("capture");
+        }else{
+          squareElement.classList.add("move");
+        }
+      }
 
       if(square){
         const pieceElement = document.createElement("div");
@@ -87,12 +132,20 @@ const renderBoard = () => {
           if(pieceElement.draggable){
             draggedPiece = pieceElement;
             sourceSquare = {row: rowindex, col: squareindex};
+
+            setTimeout (() => {
+              showLegalMoves(rowindex, squareindex);
+            }, 0);
+            
             e.dataTransfer.setData("text/plain", "");
           }
         });
         pieceElement.addEventListener("dragend", (e) => {
           draggedPiece = null;
           sourceSquare = null;
+
+          clearHighlights();
+
         });
 
         squareElement.appendChild(pieceElement);
@@ -154,6 +207,23 @@ const getPieceUnicode = (piece) => {
 
   return unicodePieces[piece.type] || "";
 };
+
+socket.on("chatMessages", (data) => {
+    const div = document.createElement("div");
+
+    div.classList.add("message");
+
+    if (data.sender === "w") {
+        div.classList.add("white-message");
+    } else {
+        div.classList.add("black-message");
+    }
+
+    div.textContent = data.text;
+
+    chatMessages.appendChild(div);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+});
 
 socket.on("playerRole", function(role) {
   playerRole = role;
