@@ -11,6 +11,7 @@ let sourceSquare = null;
 let playerRole = null;
 let legalMoves = [];
 let highlightedSquares = [];
+let waiting = true;
 
 sendBtn.addEventListener("click", () => {
   const message = input.value.trim();
@@ -180,6 +181,7 @@ const renderBoard = () => {
 };
 
 const handleMove = (source, target) => {
+  if(waiting) return;
   const move = {
     from: `${String.fromCharCode(97 + source.col)}${8 - source.row}`,
     to: `${String.fromCharCode(97 + target.col)}${8 - target.row}`,
@@ -208,6 +210,14 @@ const getPieceUnicode = (piece) => {
   return unicodePieces[piece.type] || "";
 };
 
+socket.on("waiting", () => {
+  waiting = true,
+  playerRole = null;
+  chess.reset();
+  renderBoard();
+  statusElement.innerText = "Waiting for player...";
+});
+
 socket.on("chatMessages", (data) => {
     const div = document.createElement("div");
 
@@ -226,8 +236,14 @@ socket.on("chatMessages", (data) => {
 });
 
 socket.on("playerRole", function(role) {
+  waiting = false;
   playerRole = role;
   renderBoard();
+});
+
+socket.on("playerDisconnected", () => {
+  waiting = true;
+  statusElement.innerText = "Opponent disconnected";
 });
 
 socket.on("spectatorRole", function () {
