@@ -7,18 +7,30 @@
     <link rel="stylesheet" href="/css/style.css" />
   </head>
 <body>
+  <button id="menuBtn" class="menu-btn">&#9776</button>
   <div class="screen">
     <div class="container">
         <div id="status" class="status-bar"></div>
         <div class="chessboard"></div>
     </div>
+    <div></div>
     <div class="chat-box">
       <div id="chat-message"></div>
       <div class="chat-input">
         <input type="text" id="messageInput" placeholder="Message">
-      <button id="sendBtn">Send</button>
+        <button id="sendBtn">Send</button>
+      </div>
     </div>
-      
+  </div>
+
+  <div id="menuOverlay" class="menu-overlay">
+    <div class="menu-card">
+      <h2>Game Menu</h2>
+
+      <button id="drawBtm">Draw</button>
+      <button id="resignBtn">Resign</button>
+      <button id="restartBtn">Restart</button>
+      <button id="closeMenu" class="close-btn">Close</button>
     </div>
   </div>
 

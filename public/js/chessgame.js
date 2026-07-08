@@ -5,6 +5,9 @@ const statusElement = document.getElementById("status");
 const input = document.getElementById("messageInput");
 const sendBtn = document.getElementById("sendBtn");
 const chatMessages = document.getElementById("chat-message");
+const menuBtn = document.getElementById("menuBtn");
+const menuOverlay = document.getElementById("menuOverlay");
+const closeMenu = document.getElementById("closeMenu");
 
 let draggedPiece = null;
 let sourceSquare = null;
@@ -12,6 +15,18 @@ let playerRole = null;
 let legalMoves = [];
 let highlightedSquares = [];
 let waiting = true;
+
+menuBtn.addEventListener("click", () => {
+  menuOverlay.classList.add("active");
+});
+closeMenu.addEventListener("click", () => {
+  menuOverlay.classList.remove("active");
+})
+menuOverlay.addEventListener("click", (e) => {
+  if(e.target === menuOverlay){
+    menuOverlay.classList.remove("active");
+  }
+});
 
 sendBtn.addEventListener("click", () => {
   const message = input.value.trim();
@@ -244,6 +259,10 @@ socket.on("playerRole", function(role) {
 socket.on("playerDisconnected", () => {
   waiting = true;
   statusElement.innerText = "Opponent disconnected";
+});
+
+socket.on("clearChat", () => {
+  document.getElementById("chat-message").innerHTML = "";
 });
 
 socket.on("spectatorRole", function () {
