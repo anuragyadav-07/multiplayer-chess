@@ -27,14 +27,30 @@
     <div class="menu-card">
       <h2>Game Menu</h2>
 
-      <button id="drawBtm">Draw</button>
+      <button id="drawBtn">Draw</button>
       <button id="resignBtn">Resign</button>
       <button id="restartBtn">Restart</button>
       <button id="closeMenu" class="close-btn">Close</button>
     </div>
   </div>
+  <div id="restartOverlay" class="menu-overlay">
+    <div class="menu-card">
+      <h2>Restart Game?</h2>
+      <p>Opponent wants to restart the game.</p>
+      <button id="restartYes">Yes</button>
+      <button id="restartNo">No</button>
+    </div>
+  </div>
+  <div id="drawOverlay" class="menu-overlay">
+  <div class="menu-card">
+    <h2>Draw Offer</h2>
+    <p id="drawText">Opponent offered a draw.</p>
+    <button id="acceptDrawBtn">Accept</button>
+    <button id="declineDrawBtn">Decline</button>
+  </div>
+</div>
 
-  <script src="https://cdn.socket.io/4.8.3/socket.io.min.js" integrity="sha384-kzavj5fiMwLKzzD1f8S7TeoVIEi7uKHvbTA3ueZkrzYq75pNQUiUi6Dy98Q3fxb0" crossorigin="anonymous"></script>
+  <!-- <script src="https://cdn.socket.io/4.8.3/socket.io.min.js" integrity="sha384-kzavj5fiMwLKzzD1f8S7TeoVIEi7uKHvbTA3ueZkrzYq75pNQUiUi6Dy98Q3fxb0" crossorigin="anonymous"></script> -->
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js" integrity="sha512-xRllwz2gdZciIB+AkEbeq+gVhX8VB8XsfqeFbUh+SzHlN96dEduwtTuVuc2u9EROlmW9+yhRlxjif66ORpsgVA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 

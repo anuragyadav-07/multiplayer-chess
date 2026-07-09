@@ -1,3 +1,4 @@
+const { Chess } = require("chess.js");
 const { rooms } = require("../models/roomModel");
 
 function handleMove(io, socket, move) {
@@ -48,6 +49,77 @@ function handleMove(io, socket, move) {
   }
 }
 
+function handleResign(io, socket, rooms) {
+  
+  const roomId = socket.roomId;
+
+  if(!roomId || !rooms[roomId]) return;
+
+  const room = rooms[roomId];
+
+  const winner = socket.id === room.white ? "black" : "white";
+
+  io.to(socket.roomId).emit("gameResigned", {
+    winner,
+  });
+}
+
+function handleRestartRequest(io, socket, rooms) {
+  const room = rooms[socket.roomId];
+  if(!room) return;
+
+  const opponentId = socket.id === room.white ? room.black : room.white;
+  io.to(opponentId).emit("restartRequest");
+}
+
+function handleRestartResponse(io, socket, rooms, accepted) {
+  
+  const roomId = socket.roomId;
+  if(!roomId || !rooms[roomId]) return;
+
+  if(!accepted) {
+    const room = rooms[roomId];
+    const requesterId = socket.id === room.white ? room.black : room.white;
+    io.to(requesterId).emit("restartDeclined");
+    return;
+  }
+
+  rooms[roomId].chess = new Chess();
+
+  io.to(roomId).emit("boardState", rooms[roomId].chess.fen());
+
+  io.to(roomId).emit("gameRestarted");
+}
+
+function handleDrawRequest(io, socket, rooms) {
+  const room = rooms[socket.roomId];
+  if(!room) return;
+
+  const opponentId = socket.id === room.white ? room.black : room.white;
+  io.to(opponentId).emit("drawRequest");
+}
+
+function handleDrawResponse(io, socket, rooms, accepted) {
+  
+  const roomId = socket.roomId;
+  if(!roomId || !rooms[roomId]) return;
+
+  const room = rooms[roomId];
+
+  if(!accepted) {
+    const requesterId = socket.id === room.white ? room.black : room.white;
+    io.to(requesterId).emit("drawDeclined");
+    return;
+  }
+  //Draw Accepted
+  io.to(roomId).emit("gameDrawn");
+}
+
 module.exports = {
   handleMove,
+  handleResign,
+  handleRestartRequest,
+  handleRestartResponse,
+  handleDrawRequest,
+  handleDrawResponse,
 };

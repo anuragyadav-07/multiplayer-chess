@@ -1,10 +1,13 @@
-const {
-  waitingPlayers,
-  rooms,
-  createRoom,
-} = require("../models/roomModel");
+const { waitingPlayers, rooms, createRoom } = require("../models/roomModel");
 
-const { handleMove } = require("./gameController");
+const { 
+  handleMove,
+  handleResign,
+  handleRestartRequest,
+  handleRestartResponse,
+  handleDrawRequest,
+  handleDrawResponse,
+} = require("./gameController");
 
 function socketController(io) {
   io.on("connection", (socket) => {
@@ -28,6 +31,26 @@ function socketController(io) {
     // Move
     socket.on("move", (move) => {
       handleMove(io, socket, move);
+    });
+
+    socket.on("resign", () => {
+      handleResign(io, socket, rooms);
+    });
+
+    socket.on("restartRequest", () => {
+      handleRestartRequest(io, socket, rooms);
+    });
+
+    socket.on("restartResponse", ({ accepted }) => {
+      handleRestartResponse(io, socket, rooms, accepted);
+    });
+
+    socket.on("drawRequest", () => {
+      handleDrawRequest(io, socket, rooms);
+    });
+
+    socket.on("drawResponse", ({ accepted }) => {
+      handleDrawResponse(io, socket, rooms, accepted);
     });
 
     // Disconnect

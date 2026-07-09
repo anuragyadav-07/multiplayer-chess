@@ -8,6 +8,15 @@ const chatMessages = document.getElementById("chat-message");
 const menuBtn = document.getElementById("menuBtn");
 const menuOverlay = document.getElementById("menuOverlay");
 const closeMenu = document.getElementById("closeMenu");
+const drawBtn = document.getElementById("drawBtn");
+const resignBtn = document.getElementById("resignBtn");
+const restartBtn = document.getElementById("restartBtn");
+const restartOverlay = document.getElementById("restartOverlay");
+const restartYes = document.getElementById("restartYes");
+const restartNo = document.getElementById("restartNo");
+const drawOverlay = document.getElementById("drawOverlay");
+const acceptDrawBtn = document.getElementById("acceptDrawBtn");
+const declineDrawBtn = document.getElementById("declineDrawBtn");
 
 let draggedPiece = null;
 let sourceSquare = null;
@@ -15,33 +24,106 @@ let playerRole = null;
 let legalMoves = [];
 let highlightedSquares = [];
 let waiting = true;
+let gameOver = false;
 
 menuBtn.addEventListener("click", () => {
   menuOverlay.classList.add("active");
 });
+
 closeMenu.addEventListener("click", () => {
   menuOverlay.classList.remove("active");
-})
+});
+
 menuOverlay.addEventListener("click", (e) => {
   if(e.target === menuOverlay){
     menuOverlay.classList.remove("active");
   }
 });
 
-sendBtn.addEventListener("click", () => {
-  const message = input.value.trim();
-
-  if(message){
-    socket.emit("chatMessage",{
-      sender: playerRole,
-      text:message
-    });
-    input.value = "";
-  }
-  
+resignBtn.addEventListener("click", () => {
+  socket.emit("resign");
 });
 
+restartBtn.addEventListener("click", () => {
+  menuOverlay.classList.remove("active");
+  statusElement.innerText = "Restart request sent ...";
+  socket.emit("restartRequest");
+});
+
+restartYes.addEventListener("click", () =>{
+  restartOverlay.classList.remove("active");
+  socket.emit("restartResponse", {
+    accepted : true,
+  });
+});
+
+restartNo.addEventListener("click", () =>{
+  restartOverlay.classList.remove("active");
+  socket.emit("restartResponse", {
+    accepted : false,
+  });
+});
+
+drawBtn.addEventListener("click", () => {
+  menuOverlay.classList.remove("active");
+  statusElement.innerText = "Draw request sent...";
+  socket.emit("drawRequest");
+});
+
+acceptDrawBtn.addEventListener("click", () => {
+  drawOverlay.classList.remove("active");
+  socket.emit("drawResponse", {
+    accepted : true,
+  });
+});
+
+declineDrawBtn.addEventListener("click", () => {
+  drawOverlay.classList.remove("active");
+  socket.emit("drawResponse", {
+    accepted : false,
+  });
+});
+
+// sendBtn.addEventListener("click", () => {
+//   const message = input.value.trim();
+
+//   if(message){
+//     socket.emit("chatMessage",{
+//       sender: playerRole,
+//       text:message
+//     });
+//     input.value = "";
+//   }
+  
+// });
+
+
+
+function sendMessage() {
+  const message = input.value.trim();
+
+  if(!message) return;
+
+  socket.emit("chatMessage",{
+    sender : playerRole,
+    text : message,
+  });
+  input.value = "";
+}
+
+sendBtn.addEventListener("click", sendMessage);
+
+input.addEventListener("keydown", (e) => {
+  if(e.key === "Enter"){
+    e.preventDefault();
+    sendMessage();
+  }
+});
+
+
+
 const updateStatus = () => {
+  if( gameOver ) return;
   let message = "";
   let statusClass = "";
 
@@ -53,7 +135,7 @@ const updateStatus = () => {
     if (playerRole !== null) {
       if (chess.turn() === playerRole) {
         message = "Checkmate! You Lose.";
-        statusClass = "game-over-draw";
+        statusClass = "game-over-lose";
       } else {
         message = "Checkmate! You Win!";
         statusClass = "game-over-victory";
@@ -142,9 +224,13 @@ const renderBoard = () => {
         pieceElement.classList.add("piece",  square.color === "w" ? "white" : "black");
 
         pieceElement.innerText = getPieceUnicode(square);
-        pieceElement.draggable = playerRole === square.color;
+        pieceElement.draggable = playerRole === square.color && !gameOver;
 
         pieceElement.addEventListener("dragstart", (e) => {
+          if(gameOver){
+            e.preventDefault();
+            return;
+          }
           if(pieceElement.draggable){
             draggedPiece = pieceElement;
             sourceSquare = {row: rowindex, col: squareindex};
@@ -248,6 +334,81 @@ socket.on("chatMessages", (data) => {
 
     chatMessages.appendChild(div);
     chatMessages.scrollTop = chatMessages.scrollHeight;
+});
+
+socket.on("gameResigned", ({ winner }) => {
+  gameOver = true;
+  waiting = true;
+
+  draggedPiece = null;
+  sourceSquare = null;
+  legalMoves = [];
+
+  renderBoard();
+  menuOverlay.classList.remove("active");
+
+  if((winner === "white" && playerRole === "w") || (winner === "black" && playerRole === "b")){
+    statusElement.innerText = "You Win! Opponent Resigned."
+    statusElement.className = "status-bar game-over-victory";
+  }else{
+    statusElement.innerText = "You Lose! You Resigned."
+    statusElement.className = "status-bar game-over-defeat";
+  }
+});
+
+ //Recieve Restart Request
+
+socket.on("restartRequest", () => {
+  restartOverlay.classList.add("active");
+  socket.emit("restartResponse", {
+    accepted : accept,
+  });
+});
+
+// Restart Declined
+
+socket.on("restartDeclined", () => {
+  statusElement.innerText = "Restart request declined.";
+});
+
+// Game Restarted
+
+socket.on("gameRestarted", () => {
+  gameOver = false;
+  waiting = false;
+
+  draggedPiece = null;
+  sourceSquare = null;
+  legalMoves = [];
+
+  menuOverlay.classList.remove("active");
+
+  renderBoard();
+});
+
+socket.on("drawRequest", () => {
+  drawOverlay.classList.add("active");
+});
+
+socket.on("drawDeclined", () => {
+  statusElement.innerText = "Draw request declined.";
+});
+
+socket.on("gameDrawn", () => {
+  gameOver = true;
+  waiting = true;
+
+  draggedPiece = null;
+  sourceSquare = null;
+  legalMoves = [];
+
+  menuOverlay.classList.remove("active");
+  drawOverlay.classList.remove("active");
+
+  statusElement.innerText = "Game Drawn by Agreement.";
+  statusElement.className = "status-bar game-over-draw";
+
+  renderBoard();
 });
 
 socket.on("playerRole", function(role) {

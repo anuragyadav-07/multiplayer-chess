@@ -88,6 +88,13 @@ body {
     box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
 }
 
+.status-bar.game-over-lose{
+    background-color: rgba(239, 68, 68, 0.95);
+    color: #ffffff;
+    border-color: #dc2626;
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.5);
+}
+
 .status-bar.game-over-draw {
     background-color: rgba(239, 68, 68, 0.95);
     color: #ffffff;
@@ -353,4 +360,29 @@ button:hover {
     font-size: 17px;
     font-weight: 600;
     text-align: center;
+}
+
+.game-over-defeat {
+    background-color: #d32f2f;
+    color: white;
+}
+
+p {
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+    line-height: 1.6;
+    margin: 20px 0 30px;
+    padding: 0 10px;
+}
+
+.game-over-draw {
+    background: linear-gradient(135deg, #4b5563, #1f2937);
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 18px;
+    text-align: center;
+    border: 2px solid #9ca3af;
+    box-shadow: 0 0 15px rgba(156, 163, 175, 0.5);
 }
