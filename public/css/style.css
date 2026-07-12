@@ -34,8 +34,12 @@ body {
 
 /* Status Bar styling */
 .status-bar {
-    width: 400px;
+    min-width: 400px;
     min-height: 56px;
+    /* min-width: 325px; */
+    /* white-space: nowrap;
+    width: max-content; */
+    /* display: inline-block; */
     margin-bottom: 20px;
     padding: 12px 24px;
     border-radius: 12px;
@@ -116,6 +120,8 @@ body {
     border: 6px solid #2d3748;
     background-color: #2d3748;
     transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    left: 90px;
 }
 
 .square {
@@ -385,4 +391,44 @@ p {
     text-align: center;
     border: 2px solid #9ca3af;
     box-shadow: 0 0 15px rgba(156, 163, 175, 0.5);
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 480px;
+    margin: 10px auto;
+}
+
+.clock {
+    min-width: 130px;
+    height: 56px;
+    white-space: nowrap;
+    width: max-content;
+    padding: 10px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    background: #222;
+    color: white;
+    border-radius: 8px;
+}
+#white-clock {
+    margin-left: 10px;
+    background: #ffffff;
+    color: black;
+}
+#blacl-clock {
+    margin-right: 10px;
+    /* background: #000000; */
+    background: linear-gradient(180deg, #0a0a0a, #151515);
+}
+
+.clock.active {
+    background: #2ecc71;
+}
+
+.clock.timeout {
+    background: #e74c3c;
 }

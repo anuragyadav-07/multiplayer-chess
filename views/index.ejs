@@ -10,10 +10,18 @@
   <button id="menuBtn" class="menu-btn">&#9776</button>
   <div class="screen">
     <div class="container">
-        <div id="status" class="status-bar"></div>
+        <!-- <div id="status" class="status-bar"></div> -->
+        <div class="header">
+          <div class="clock" id="black-clock">
+            <span id="black-time">10:00</span>
+          </div>
+          <div id="status" class="status-bar"></div>
+          <div class="clock" id="white-clock">
+            <span id="white-time">10:00</span>
+          </div>
+        </div>
         <div class="chessboard"></div>
     </div>
-    <div></div>
     <div class="chat-box">
       <div id="chat-message"></div>
       <div class="chat-input">
@@ -22,7 +30,6 @@
       </div>
     </div>
   </div>
-
   <div id="menuOverlay" class="menu-overlay">
     <div class="menu-card">
       <h2>Game Menu</h2>

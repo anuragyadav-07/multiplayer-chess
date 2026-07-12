@@ -17,6 +17,8 @@ const restartNo = document.getElementById("restartNo");
 const drawOverlay = document.getElementById("drawOverlay");
 const acceptDrawBtn = document.getElementById("acceptDrawBtn");
 const declineDrawBtn = document.getElementById("declineDrawBtn");
+const whiteTimeElement = document.getElementById("white-time");
+const blackTimeElement = document.getElementById("black-time");
 
 let draggedPiece = null;
 let sourceSquare = null;
@@ -25,6 +27,9 @@ let legalMoves = [];
 let highlightedSquares = [];
 let waiting = true;
 let gameOver = false;
+let whiteTime = 10 * 60;
+let blackTime = 10 * 60;
+let timer = null;
 
 menuBtn.addEventListener("click", () => {
   menuOverlay.classList.add("active");
@@ -120,6 +125,51 @@ input.addEventListener("keydown", (e) => {
   }
 });
 
+function updateClockDisplay() {
+  const whiteMin = Math.floor(whiteTime / 60);
+  const whiteSec = whiteTime % 60;
+
+  const blackMin = Math.floor(blackTime / 60);
+  const blackSec = blackTime % 60;
+
+  whiteTimeElement.textContent = `${String(whiteMin).padStart(2, "0")} : ${String(whiteSec).padStart(2, "0")}`;
+
+  blackTimeElement.textContent = `${String(blackMin).padStart(2, "0")} : ${String(blackSec).padStart(2, "0")}`;
+
+}
+
+function startClock() {
+  clearInterval(timer);
+
+  timer = setInterval(() => {
+    if(chess.turn() === "w"){
+      whiteTime--;
+
+      if(whiteTime <= 0){
+        whiteTime =0;
+        updateClockDisplay();
+        clearInterval(timer);
+
+        alert("White ran out of time!");
+        return;
+      }
+    }
+    else{
+      blackTime--;
+
+      if(blackTime <= 0){
+        blackTime =0;
+        updateClockDisplay();
+        clearInterval(timer);
+
+        alert("Black ran out of time!");
+        return;
+      }
+    }
+    updateClockDisplay();
+  }, 1000);
+}
+
 
 
 const updateStatus = () => {
@@ -132,6 +182,7 @@ const updateStatus = () => {
   const inactiveColorName = chess.turn() === "w" ? "Black" : "White";
 
   if (chess.in_checkmate()) {
+    clearInterval(timer);
     if (playerRole !== null) {
       if (chess.turn() === playerRole) {
         message = "Checkmate! You Lose.";
@@ -315,6 +366,10 @@ socket.on("waiting", () => {
   waiting = true,
   playerRole = null;
   chess.reset();
+  whiteTime = 10 * 60;
+  blackTime = 10 * 60;
+  updateClockDisplay();
+  clearInterval(timer);
   renderBoard();
   statusElement.innerText = "Waiting for player...";
 });
@@ -337,6 +392,7 @@ socket.on("chatMessages", (data) => {
 });
 
 socket.on("gameResigned", ({ winner }) => {
+  clearInterval(timer);
   gameOver = true;
   waiting = true;
 
@@ -377,6 +433,12 @@ socket.on("gameRestarted", () => {
   gameOver = false;
   waiting = false;
 
+  whiteTime = 10 * 60;
+  blackTime = 10 * 60;
+
+  updateClockDisplay();
+  startClock();
+
   draggedPiece = null;
   sourceSquare = null;
   legalMoves = [];
@@ -395,6 +457,7 @@ socket.on("drawDeclined", () => {
 });
 
 socket.on("gameDrawn", () => {
+  clearInterval(timer);
   gameOver = true;
   waiting = true;
 
@@ -440,6 +503,7 @@ socket.on("boardState", function (fen) {
 socket.on("move", function (move) {
   chess.move(move);
   renderBoard();
+  startClock();
 });
 
 socket.on("check", (data) => {
@@ -460,3 +524,5 @@ socket.on("draw", () => {
 
 
 renderBoard();
+updateClockDisplay();
+startClock();

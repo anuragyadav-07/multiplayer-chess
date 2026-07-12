@@ -14,6 +14,10 @@ function createRoom(player1, player2, io) {
     chess: new Chess(),
     white: player1.id,
     black: player2.id,
+
+    whiteTime : 10 * 60,
+    blackTime : 10 * 60,
+    timer : null,
   };
 
   player1.roomId = roomId;

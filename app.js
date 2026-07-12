@@ -3,13 +3,25 @@ const http = require("http");
 const socket = require("socket.io");
 const path = require("path");
 
+const { connectToMongoDB } = require("./connect")
 const socketController = require("./controllers/socketController");
 const indexRoutes = require("./routes");
+const authRoutes = require("./routes/authRoutes");
 
 const app = express();
 
 const server = http.createServer(app);
 const io = socket(server);
+
+connectToMongoDB("mongodb://localhost:27017/chess")
+  .then(() => console.log("Mongodb Connected"));
+
+
+app.use(express.urlencoded({extended: true}));
+
+
+app.use("/", authRoutes);
+
 
 // View Engine
 app.set("view engine", "ejs");
