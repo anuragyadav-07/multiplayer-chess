@@ -2,6 +2,9 @@ const express = require("express");
 const http = require("http");
 const socket = require("socket.io");
 const path = require("path");
+const cookieParser = require("cookie-parser");
+
+require("dotenv").config();
 
 const { connectToMongoDB } = require("./connect")
 const socketController = require("./controllers/socketController");
@@ -18,6 +21,8 @@ connectToMongoDB("mongodb://localhost:27017/chess")
 
 
 app.use(express.urlencoded({extended: true}));
+
+app.use(cookieParser());
 
 
 app.use("/", authRoutes);

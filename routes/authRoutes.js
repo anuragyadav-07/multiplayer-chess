@@ -23,4 +23,9 @@ router.post("/login",
   authController.handleUserLogin
 );
 
+// LogOut
+router.get("/logout",
+  authController.handleLogout
+);
+
 module.exports = router;

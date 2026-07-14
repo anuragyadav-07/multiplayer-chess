@@ -125,50 +125,50 @@ input.addEventListener("keydown", (e) => {
   }
 });
 
-function updateClockDisplay() {
-  const whiteMin = Math.floor(whiteTime / 60);
-  const whiteSec = whiteTime % 60;
+// function updateClockDisplay() {
+//   const whiteMin = Math.floor(whiteTime / 60);
+//   const whiteSec = whiteTime % 60;
 
-  const blackMin = Math.floor(blackTime / 60);
-  const blackSec = blackTime % 60;
+//   const blackMin = Math.floor(blackTime / 60);
+//   const blackSec = blackTime % 60;
 
-  whiteTimeElement.textContent = `${String(whiteMin).padStart(2, "0")} : ${String(whiteSec).padStart(2, "0")}`;
+//   whiteTimeElement.textContent = `${String(whiteMin).padStart(2, "0")} : ${String(whiteSec).padStart(2, "0")}`;
 
-  blackTimeElement.textContent = `${String(blackMin).padStart(2, "0")} : ${String(blackSec).padStart(2, "0")}`;
+//   blackTimeElement.textContent = `${String(blackMin).padStart(2, "0")} : ${String(blackSec).padStart(2, "0")}`;
 
-}
+// }
 
-function startClock() {
-  clearInterval(timer);
+// function startClock() {
+//   clearInterval(timer);
 
-  timer = setInterval(() => {
-    if(chess.turn() === "w"){
-      whiteTime--;
+//   timer = setInterval(() => {
+//     if(chess.turn() === "w"){
+//       whiteTime--;
 
-      if(whiteTime <= 0){
-        whiteTime =0;
-        updateClockDisplay();
-        clearInterval(timer);
+//       if(whiteTime <= 0){
+//         whiteTime =0;
+//         updateClockDisplay();
+//         clearInterval(timer);
 
-        alert("White ran out of time!");
-        return;
-      }
-    }
-    else{
-      blackTime--;
+//         alert("White ran out of time!");
+//         return;
+//       }
+//     }
+//     else{
+//       blackTime--;
 
-      if(blackTime <= 0){
-        blackTime =0;
-        updateClockDisplay();
-        clearInterval(timer);
+//       if(blackTime <= 0){
+//         blackTime =0;
+//         updateClockDisplay();
+//         clearInterval(timer);
 
-        alert("Black ran out of time!");
-        return;
-      }
-    }
-    updateClockDisplay();
-  }, 1000);
-}
+//         alert("Black ran out of time!");
+//         return;
+//       }
+//     }
+//     updateClockDisplay();
+//   }, 1000);
+// }
 
 
 
@@ -366,10 +366,10 @@ socket.on("waiting", () => {
   waiting = true,
   playerRole = null;
   chess.reset();
-  whiteTime = 10 * 60;
-  blackTime = 10 * 60;
-  updateClockDisplay();
-  clearInterval(timer);
+  // whiteTime = 10 * 60;
+  // blackTime = 10 * 60;
+  // updateClockDisplay();
+  // clearInterval(timer);
   renderBoard();
   statusElement.innerText = "Waiting for player...";
 });
@@ -416,9 +416,9 @@ socket.on("gameResigned", ({ winner }) => {
 
 socket.on("restartRequest", () => {
   restartOverlay.classList.add("active");
-  socket.emit("restartResponse", {
-    accepted : accept,
-  });
+  // socket.emit("restartResponse", {
+  //   accepted : accept,
+  // });
 });
 
 // Restart Declined
@@ -433,8 +433,8 @@ socket.on("gameRestarted", () => {
   gameOver = false;
   waiting = false;
 
-  whiteTime = 10 * 60;
-  blackTime = 10 * 60;
+  // whiteTime = 10 * 60;
+  // blackTime = 10 * 60;
 
   updateClockDisplay();
   startClock();
@@ -496,7 +496,7 @@ socket.on("spectatorRole", function () {
 
 socket.on("boardState", function (fen) {
   chess.load(fen);
-  gameStatus = "";
+  // gameStatus = "";
   renderBoard();
 });
 
@@ -524,5 +524,5 @@ socket.on("draw", () => {
 
 
 renderBoard();
-updateClockDisplay();
-startClock();
+// updateClockDisplay();
+// startClock();

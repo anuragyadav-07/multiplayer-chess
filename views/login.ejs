@@ -4,18 +4,42 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
+  <link rel="stylesheet" href="/css/auth.css" />
 </head>
 <body>
-  <h2>Login</h2>
 
-  <form action="/login" method="POST">
-    <input type="text" name="username" placeholder="Username" required>
-    <!-- <input type="password" name="password" placeholder="Password" required> -->
-    <button type="submit">Login</button>
-  </form>
-  <p>
+  <div class="auth-container">
+    <h2>Login</h2>
+
+    <form action="/login" method="POST">
+      <input type="text" name="username" placeholder="Username" value="<%= username %>" class="<%= usernameError ? 'input-error' : '' %>" required>
+
+      <% if (usernameError) { %>
+       <p class="error-message"><%= usernameError %></p>
+      <% } %>
+
+      <div class="password-box">
+        <input type="password" id="loginPassword" name="password" placeholder="Password" 
+        class="<%= passwordError ? 'input-error' : '' %>" required>
+
+        <span class="toggle-password" onclick="togglePassword('loginPassword', this)">
+          👁
+        </span>
+    </div>
+      <% if (passwordError) { %>
+       <p class="error-message"><%= passwordError %></p>
+      <% } %>
+
+      <button type="submit" class="auth-btn">Login</button>
+
+    </form>
+
+    <div class="auth-footer">
     Don't have an account?
-    <a href="/auth/signup">Sign Up</a>
-  </p>
+    <a href="/signup">Sign Up</a>
+    </div>
+  </div>
+
+  <script src="/js/auth.js"></script>
 </body>
 </html>
