@@ -1,0 +1,671 @@
+/* ==========================
+   Google Font
+========================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap');
+
+/* ==========================
+   Global
+========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:"Outfit",sans-serif;
+    background:#0f172a;
+    color:#fff;
+    min-height:100vh;
+}
+
+a{
+    text-decoration:none;
+    color:inherit;
+}
+
+button{
+    font-family:inherit;
+    cursor:pointer;
+}
+
+/* ==========================
+   Navigation
+========================== */
+
+.navbar{
+
+    position:fixed;
+
+    top:0;
+    left:0;
+
+    width:100%;
+    height:75px;
+
+    padding:0 45px;
+
+    background:#1e293b;
+
+    border-bottom:1px solid #334155;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    z-index:1000;
+}
+
+.logo{
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    font-size:32px;
+    font-weight:700;
+
+    color:#8b5cf6;
+}
+
+.nav-links{
+
+    list-style:none;
+
+    display:flex;
+    gap:45px;
+}
+
+.nav-links a{
+
+    color:#cbd5e1;
+
+    font-size:17px;
+    font-weight:500;
+
+    transition:.3s;
+}
+
+.nav-links a:hover{
+
+    color:white;
+}
+
+.nav-links .active{
+
+    color:#8b5cf6;
+}
+
+.nav-icons{
+
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.icon-btn{
+
+    border:none;
+    background:transparent;
+
+    font-size:23px;
+
+    transition:.25s;
+}
+
+.icon-btn:hover{
+
+    transform:scale(1.15);
+}
+
+/* ==========================
+   Dashboard
+========================== */
+
+.dashboard{
+
+    width:92%;
+
+    margin:110px auto 40px;
+}
+
+/* ==========================
+   Profile Card
+========================== */
+
+.profile-card{
+
+    background:#1e293b;
+
+    border:1px solid #334155;
+
+    border-radius:20px;
+
+    padding:30px;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+}
+
+.profile-left{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+}
+
+.avatar{
+
+    width:90px;
+    height:90px;
+
+    border-radius:50%;
+
+    background:#8b5cf6;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:40px;
+}
+
+.profile-info h2{
+    margin-left: -220px;
+    font-size:30px;
+    margin-bottom:8px;
+}
+
+.profile-info p{
+    margin-left: -220px;
+    color:#94a3b8;
+}
+
+.stats{
+
+    display:flex;
+
+    gap:18px;
+}
+
+.stat-box{
+
+    width:110px;
+
+    background:#0f172a;
+
+    border:1px solid #334155;
+
+    border-radius:14px;
+
+    padding:18px;
+
+    text-align:center;
+
+    transition:.3s;
+}
+
+.stat-box:hover{
+
+    transform:translateY(-4px);
+
+    border-color:#8b5cf6;
+}
+
+.stat-box h3{
+
+    color:#8b5cf6;
+
+    font-size:28px;
+}
+
+.stat-box span{
+
+    color:#cbd5e1;
+
+    font-size:14px;
+}
+
+/* ==========================
+   Dashboard Grid
+========================== */
+
+.dashboard-grid{
+    margin-top:30px;
+
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+
+    gap:25px;
+}
+
+/* ==========================
+   Cards
+========================== */
+
+.card{
+
+    background:#1e293b;
+
+    border:1px solid #334155;
+
+    border-radius:20px;
+
+    padding:28px;
+
+    min-height:250px;
+
+    display:flex;
+    flex-direction:column;
+
+    transition:.3s;
+}
+
+.card:hover{
+
+    transform:translateY(-5px);
+
+    border-color:#8b5cf6;
+
+    box-shadow:0 10px 25px rgba(124,58,237,.15);
+}
+
+/* Card Heading */
+
+.card h2{
+
+    font-size:28px;
+
+    margin-bottom:15px;
+}
+
+/* Card Description */
+
+.card p{
+
+    color:#94a3b8;
+
+    line-height:1.7;
+
+    font-size:16px;
+}
+
+/* Button always at bottom */
+
+.play-btn{
+
+    margin-top:auto;
+
+    width:100%;
+
+    height:50px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#7c3aed;
+
+    color:white;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    transition:.3s;
+}
+
+.play-btn:hover{
+
+    background:#6d28d9;
+
+    transform:scale(1.02);
+}
+
+/* View All Button */
+
+.view-btn{
+
+    border:none;
+
+    background:#7c3aed;
+
+    color:white;
+
+    padding:10px 18px;
+
+    border-radius:10px;
+
+    font-weight:600;
+
+    transition:.3s;
+}
+
+.view-btn:hover{
+
+    background:#6d28d9;
+}
+
+/* Full Width Cards */
+
+.full-card{
+
+    margin-top:25px;
+
+    background:#1e293b;
+
+    border:1px solid #334155;
+
+    border-radius:20px;
+
+    padding:28px;
+}
+
+/* Card Header */
+
+.card-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:20px;
+}
+
+/* ==========================
+   Leaderboard
+========================== */
+
+.leaderboard-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    margin-top:20px;
+
+    overflow:hidden;
+}
+
+.leaderboard-table thead{
+
+    background:#334155;
+}
+
+.leaderboard-table th{
+
+    padding:18px;
+
+    text-align:left;
+
+    color:#f8fafc;
+
+    font-size:16px;
+
+    font-weight:600;
+}
+
+.leaderboard-table td{
+
+    padding:18px;
+
+    border-bottom:1px solid #334155;
+
+    color:#e2e8f0;
+
+    font-size:15px;
+}
+
+.leaderboard-table tbody tr{
+
+    transition:.25s;
+}
+
+.leaderboard-table tbody tr:hover{
+
+    background:#273549;
+
+    transform:scale(1.01);
+}
+
+/* Top Players */
+
+.leaderboard-table tbody tr:nth-child(1) td:first-child{
+
+    color:#FFD700;
+
+    font-weight:700;
+}
+
+.leaderboard-table tbody tr:nth-child(2) td:first-child{
+
+    color:#C0C0C0;
+
+    font-weight:700;
+}
+
+.leaderboard-table tbody tr:nth-child(3) td:first-child{
+
+    color:#CD7F32;
+
+    font-weight:700;
+}
+
+/* Rating */
+
+.leaderboard-table td:last-child{
+
+    color:#8b5cf6;
+
+    font-weight:600;
+}
+
+.rating-badge{
+
+    background:#7c3aed;
+
+    color:white;
+
+    padding:6px 12px;
+
+    border-radius:20px;
+
+    font-size:13px;
+
+    font-weight:600;
+}
+
+/* ==========================
+   Friends
+========================== */
+
+.friend{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:18px 0;
+
+    border-bottom:1px solid #334155;
+}
+
+.friend:last-child{
+
+    border-bottom:none;
+}
+
+.friend-info{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+}
+
+.friend-avatar{
+
+    width:50px;
+
+    height:50px;
+
+    border-radius:50%;
+
+    background:#7c3aed;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-weight:700;
+
+    font-size:20px;
+}
+
+.friend h4{
+
+    margin-bottom:4px;
+}
+
+.online{
+
+    color:#22c55e;
+
+    font-size:14px;
+}
+
+.offline{
+
+    color:#94a3b8;
+
+    font-size:14px;
+}
+
+.invite-btn{
+
+    background:#7c3aed;
+
+    color:white;
+
+    border:none;
+
+    padding:10px 18px;
+
+    border-radius:10px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+}
+
+.invite-btn:hover{
+
+    background:#6d28d9;
+}
+
+/* ==========================
+   Match History
+========================== */
+
+.history-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    margin-top:20px;
+}
+
+.history-table thead{
+
+    background:#334155;
+}
+
+.history-table th{
+
+    padding:18px;
+
+    text-align:left;
+
+    font-size:16px;
+
+    font-weight:600;
+}
+
+.history-table td{
+
+    padding:18px;
+
+    border-bottom:1px solid #334155;
+}
+
+.history-table tbody tr{
+
+    transition:.3s;
+}
+
+.history-table tbody tr:hover{
+
+    background:#273549;
+}
+
+/* Result Colors */
+
+.win{
+
+    color:#22c55e;
+
+    font-weight:600;
+}
+
+.loss{
+
+    color:#ef4444;
+
+    font-weight:600;
+}
+
+.draw{
+
+    color:#facc15;
+
+    font-weight:600;
+}
+
+.score-win{
+    color:#22c55e;
+    font-weight:700;
+    font-size:16px;
+}
+
+.score-loss{
+    color:#ef4444;
+    font-weight:700;
+    font-size:16px;
+}
+
+.score-draw{
+    color:#facc15;
+    font-weight:700;
+    font-size:16px;
+}

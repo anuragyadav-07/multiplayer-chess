@@ -16,9 +16,33 @@ const userSchema = new mongoose.Schema({
   password: {
     type : String,
     required : true,
-  }
+  },
+  ranking: {
+    type: Number,
+    default: 0,
+  },
+  matches: {
+    type: Number,
+    default: 0,
+  },
+  wins: {
+    type: Number,
+    default: 0,
+  },
+  losses: {
+    type: Number,
+    default: 0,
+  },
+  draws: {
+    type: Number,
+    default: 0,
+  },
+  avatar: {
+    type: String,
+    default: "👤",
+  },
 },{ 
-  timestamp : true
+  timestamps : true
 });
 
 module.exports = mongoose.model("User", userSchema);

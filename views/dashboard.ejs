@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ChessArena Dashboard</title>
+  <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+
+    <div class="logo">
+      ♞ ChessArena
+    </div>
+
+      <ul class="nav-links">
+        <li><a href="#" class="active">Home</a></li>
+        <li><a href="#">Leaderboard</a></li>
+        <li><a href="#">Friends</a></li>
+        <li><a href="#">History</a></li>
+      </ul>
+
+      <div class="nav-icons">
+        <button class="icon-btn">⚙️</button>
+        <button class="icon-btn">👤</button>
+      </div>
+
+  </nav>
+
+  <main class="dashboard">
+
+    <section class="profile-card">
+
+      <div class="avatar">
+        <!-- 🤖 -->
+         <%= user.avatar %>
+      </div>
+
+      <div class="profile-info">
+        <h2><%= user.username %></h2>
+        <p>Ranking: <%= user.ranking %></p>
+      </div>
+
+      <div class="stats">
+
+        <div class="stat-box">
+            <h3><%= user.matches %></h3>
+            <span>Matches</span>
+        </div>
+
+        <div class="stat-box">
+            <h3><%= user.wins %></h3>
+            <span>Wins</span>
+        </div>
+
+        <div class="stat-box">
+            <h3><%= user.losses %></h3>
+            <span>Losses</span>
+        </div>
+
+        <div class="stat-box">
+            <h3><%= user.draws %></h3>
+            <span>Draws</span>
+        </div>
+
+      </div>
+
+    </section>
+
+    <div class="dashboard-grid">
+
+      <!-- Play with Friend -->
+      <div class="card">
+
+        <h2>🟢 Play with Friend</h2>
+
+        <p>Create a room and invite your friend.</p>
+
+        <button class="play-btn">
+            Play Now
+        </button>
+
+      </div>
+
+      <!-- Play with Bot -->
+      <div class="card">
+
+        <h2>🟢 Play with Bot</h2>
+
+        <p>CChallenge the AI and improve your skills.</p>
+
+        <button class="play-btn">
+            Play Now
+        </button>
+
+      </div>
+    </div>
+
+<!-- Leaderboard -->
+
+<div class="full-card">
+
+    <div class="card-header">
+        <h2>🏆 Leaderboard</h2>
+
+        <button class="view-btn">View All</button>
+    </div>
+
+    <table class="leaderboard-table">
+
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Win</th>
+                <th>Loss</th>
+                <th>Draw</th>
+                <th>Ranking</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td>🥇 Goku</td>
+                <td>120</td>
+                <td>35</td>
+                <td>18</td>
+                <td><span class="rating-badge">⭐ 1400</span></td>
+            </tr>
+
+            <tr>
+                <td>🥈 Naruto</td>
+                <td>95</td>
+                <td>28</td>
+                <td>12</td>
+                <td><span class="rating-badge">⭐ 1200</span></td>
+            </tr>
+
+            <tr>
+                <td>🥉 Monkey D. Luffy</td>
+                <td>82</td>
+                <td>31</td>
+                <td>10</td>
+                <td><span class="rating-badge">⭐ 1100</span></td>
+            </tr>
+
+            <tr>
+                <td>4. Ichigo</td>
+                <td>76</td>
+                <td>33</td>
+                <td>15</td>
+                <td><span class="rating-badge">⭐ 1000</span></td>
+            </tr>
+
+            <tr>
+                <td>5. Gojo</td>
+                <td>64</td>
+                <td>29</td>
+                <td>9</td>
+                <td><span class="rating-badge">⭐ 900</span></td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<!-- Friends -->
+
+<div class="full-card">
+
+    <div class="card-header">
+        <h2>👥 Friends</h2>
+
+        <button class="view-btn">
+            View All
+        </button>
+    </div>
+
+    <div class="friend">
+
+        <div class="friend-info">
+            <div class="friend-avatar">R</div>
+
+            <div>
+                <h4>Goku</h4>
+                <p class="online">🟢 Online</p>
+            </div>
+        </div>
+
+        <button class="invite-btn">Invite</button>
+
+    </div>
+
+    <div class="friend">
+
+        <div class="friend-info">
+            <div class="friend-avatar">P</div>
+
+            <div>
+                <h4>Monkey D. Luffy</h4>
+                <p class="online">🟢 Online</p>
+            </div>
+        </div>
+
+        <button class="invite-btn">Invite</button>
+
+    </div>
+
+    <div class="friend">
+
+        <div class="friend-info">
+            <div class="friend-avatar">A</div>
+
+            <div>
+                <h4>Gojo</h4>
+                <p class="offline">⚪ Offline</p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="friend">
+
+        <div class="friend-info">
+            <div class="friend-avatar">N</div>
+
+            <div>
+                <h4>Naruto</h4>
+                <p class="offline">⚪ Offline</p>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Match History -->
+
+<div class="full-card">
+
+    <div class="card-header">
+
+        <h2>📜 Match History</h2>
+
+        <button class="view-btn">
+            View All
+        </button>
+
+    </div>
+
+    <table class="history-table">
+
+        <thead>
+            <tr>
+                <th>Opponent</th>
+                <th>Result</th>
+                <th>Score</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr>
+                <td>Ichigo</td>
+                <td class="win">Win</td>
+                <td class="score-win">1-0</td>
+                <td>16 Jul 2026</td>
+            </tr>
+
+            <tr>
+                <td>Gojo</td>
+                <td class="loss">Loss</td>
+                <td class="score-loss">0-1</td>
+                <td>15 Jul 2026</td>
+            </tr>
+
+            <tr>
+                <td>Naruto</td>
+                <td class="draw">Draw</td>
+                <td class="score-draw">½-½</td>
+                <td>14 Jul 2026</td>
+            </tr>
+
+            <tr>
+                <td>Monkey D. Luffy</td>
+                <td class="win">Win</td>
+                <td class="score-win">1-0</td>
+                <td>13 Jul 2026</td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+  </main>
+
+</body>
+</html>

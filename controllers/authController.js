@@ -62,12 +62,12 @@ async function handleUserLogin(req, res) {
     //   return res.send("User not found");
     // }
 
-    res.redirect("/game");
+    res.redirect("/dashboard");
   }
   catch(error) {
     // res.status(400).send(err.message);
     res.status(400).render("login", {
-      // error: err.message,
+      // error: err.messge,
       username: req.body.username,
       usernameError: error.field === "username" ? error.message : null,
       passwordError: error.field === "password" ? error.message : null,

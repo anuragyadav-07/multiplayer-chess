@@ -10,6 +10,7 @@ const { connectToMongoDB } = require("./connect")
 const socketController = require("./controllers/socketController");
 const indexRoutes = require("./routes");
 const authRoutes = require("./routes/authRoutes");
+const dashboardRoutes = require("./routes/dashboardRoutes");
 
 const app = express();
 
@@ -26,6 +27,8 @@ app.use(cookieParser());
 
 
 app.use("/", authRoutes);
+
+app.use("/", dashboardRoutes);
 
 
 // View Engine

@@ -1,7 +1,9 @@
 const jwt = require("jsonwebtoken");
 const { showLogin } = require("../controllers/authController");
+const User = require("../models/user");
+// const user = require("../models/user");
 
-function authenticate(req, res, next) {
+async function authenticate(req, res, next) {
   const token = req.cookies.token;
 
   if(!token) {
@@ -11,7 +13,8 @@ function authenticate(req, res, next) {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    req.user = decoded;
+    req.user = await User.findById(decoded.id);
+    // req.user = user;
 
     next();
   }
